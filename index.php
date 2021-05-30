@@ -2,7 +2,7 @@
     final class Shop{
         private function __construct()
         {
-            $this->connect = 'тут объект-подключение(PDO)';
+            $this->connect = 'connect(PDO)';
         }
         private function __clone()
         {
@@ -20,10 +20,10 @@
     class Goods{
         public function getGoods($goodsID){
             $shopDB = Shop::get_db_connection();
-            $goods = $shopDB->connect; //Запрос товара из бд, с уточнением, что количество больше 0
+            $goods = $shopDB->connect; 
             if (!empty($goods)){
-                $goods = (object)['name' => 'Одеколон', 'count' => 500]; //!Имитация ввиду отсутствия БД
-                return $goods; //предполагается возврат объекта с называнием товара, ценой и т.д.
+                $goods = (object)['name' => 'Р СѓС‡РєР°', 'count' => 500];
+                return $goods; 
             }else{
                 return false;
             }
@@ -33,7 +33,7 @@
         public function __construct($name, $VIP)
         {
             $this->name = $name;
-            $this->VIP = $VIP; //у пользователя может быть статус VIP, дающий скидку 10%;
+            $this->VIP = $VIP; 
         }
     }
     class Discount{
@@ -44,10 +44,10 @@
         public function applyDiscounts(){
             foreach ($this->basket->goods as $goods){
                 if($this->basket->user->VIP === true){
-                    $goods->count = $goods->count*0.9; //если у пользователя VIP, то дается скидка
+                    $goods->count = $goods->count*0.9; 
                 }
                 if ($_POST['delivery'] == null){
-                    $goods->count = $goods->count*0.95; //если адрес доставки не указан (самовывоз), то еще скидка на 5%
+                    $goods->count = $goods->count*0.95; 
                 }
             }
         }
@@ -55,10 +55,10 @@
     class Basket{
         public function __construct(User $user)
         {
-            $this->user = $user; //Пользователь, которому принадлженит корзина
-            $this->complete = false; //если true, то корзина считается заказом
-            $this->goods = []; //список товаров
-            $this->discountObserver = new Discount($this); //Обсервер, применяющий скидки
+            $this->user = $user;
+            $this->complete = false; 
+            $this->goods = []; 
+            $this->discountObserver = new Discount($this); 
         }
         public function addGoods($id){
             $request = new Goods;
@@ -72,7 +72,7 @@
             $this->complete = true;
         }
     }
-    $user = new User('Вася', true);
+    $user = new User('John', true);
     $basket = new Basket($user);
     $basket->addGoods(12);
     $basket->checkout();
